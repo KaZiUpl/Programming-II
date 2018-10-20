@@ -23,12 +23,7 @@ void sortowanie(vector<Czworka> czworki,int pozycja)
     {
         for(int j=0;j<czworki.size()-1;j++)
         {
-            if(czworki[i] != czworki[j] && czworki[i].tab[pozycja] == czworki[j].tab[pozycja])
-            {
-                swap(czworki[i].tab[pozycja],czworki[i].tab[(pozycja+1)%4]);
-                swap(czworki[j].tab[pozycja],czworki[j].tab[(pozycja+1)%4]);
-            }
-            else if(czworki[i].tab[pozycja] < czworki[j].tab[pozycja])
+            if(czworki[i].tab[pozycja] < czworki[j].tab[pozycja])
             {
                 swap(czworki[i],czworki[j]);
             }
@@ -41,6 +36,7 @@ void sortowanie(vector<Czworka> czworki,int pozycja)
         cout<<czworki[i].numer<<" ";
     }
     cout<<endl;
+
 }
 
 int main()
@@ -60,22 +56,23 @@ int main()
         }
         czworki.push_back(czworka);
     }
-    sortowanie(czworki,0);
-    sortowanie(czworki,1);
-    sortowanie(czworki,2);
-    sortowanie(czworki,3);
 
-    /*
-    for(int i=0;i<czworki.size();i++)
+    vector<Czworka> czworki_kopia;
+    for(int i=0;i<4;i++)
     {
-        cout<<"Numer: "<<czworki[i].numer<<", ";
-        for(int j=0;j<4;j++)
-        {
-            cout<<czworki[i].tab[j]<<" ";
-        }
-        cout<<endl;
+        czworki_kopia = czworki;
+        sortowanie(czworki_kopia,i);
     }
-    */
+
+    // for(int i=0;i<czworki.size();i++)
+    // {
+    //     cout<<"Numer: "<<czworki[i].numer<<", ";
+    //     for(int j=0;j<4;j++)
+    //     {
+    //         cout<<czworki[i].tab[j]<<" ";
+    //     }
+    //     cout<<endl;
+    // }
 
     return 0;
 }
