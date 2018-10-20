@@ -1,0 +1,35 @@
+czas wykonania poszczególnych czynnoœci to œrednia wyci¹gniêta z 5 pomiarów.
+
+-------- SEKCJA z sync_with_stdio(false) --------
+KOPIOWANIE S£ÓW:
+-fscanf/fprintf: 
+-<</>>: 
+
+KOPIOWANIE ZNAKÓW:
+-getc/putc: 
+-get/put: 
+
+KOPIOWANIE LINII:
+-fgets/fputs: 
+-metody cin/cout: 
+
+KOPIOWANIE BLOKÓW DANYCH: 
+-fread/fwrite: 
+-metody read/write strumieni cin/cout: 
+
+-------- SEKCJA z sync_with_stdio(true) --------
+KOPIOWANIE S£ÓW:
+-fscanf/fprintf: 
+-<</>>: 
+
+KOPIOWANIE ZNAKÓW:
+-getc/putc: 
+-get/put: 
+
+KOPIOWANIE LINII:
+-fgets/fputs: 
+-metody cin/cout: 
+
+KOPIOWANIE BLOKÓW DANYCH: 
+-fread/fwrite: 
+-metody read/write strumieni cin/cout: 
