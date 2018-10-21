@@ -1,35 +1,34 @@
-czas wykonania poszczegÛlnych czynnoúci to úrednia wyciπgniÍta z 5 pomiarÛw.
-
--------- SEKCJA z sync_with_stdio(false) --------
-KOPIOWANIE S£”W:
--fscanf/fprintf: 
--<</>>: 
-
-KOPIOWANIE ZNAK”W:
--getc/putc: 
--get/put: 
-
-KOPIOWANIE LINII:
--fgets/fputs: 
--metody cin/cout: 
-
-KOPIOWANIE BLOK”W DANYCH: 
--fread/fwrite: 
--metody read/write strumieni cin/cout: 
+czas wykonania poszczeg√≥lnych czynno≈õci to ≈õrednia z 5 pomiar√≥w.
 
 -------- SEKCJA z sync_with_stdio(true) --------
-KOPIOWANIE S£”W:
--fscanf/fprintf: 
--<</>>: 
+KOPIOWANIE S≈Å√ìW:
+-fscanf/fprintf: 0,9642s
+-<</>>: 0,2306s
 
-KOPIOWANIE ZNAK”W:
--getc/putc: 
--get/put: 
+KOPIOWANIE ZNAK√ìW:
+-getc/putc: 0,0564s
+-get/put: 0,7642s
 
 KOPIOWANIE LINII:
--fgets/fputs: 
--metody cin/cout: 
+-fgets/fputs: 0,044s
+-metody cin/cout: 0,0352s
 
-KOPIOWANIE BLOK”W DANYCH: 
--fread/fwrite: 
--metody read/write strumieni cin/cout: 
+KOPIOWANIE BLOK√ìW DANYCH: 
+-fread/fwrite: 0,0304s
+-metody read/write strumieni cin/cout: 0,0728s
+
+-------- SEKCJA z sync_with_stdio(false) --------
+KOPIOWANIE S≈Å√ìW:
+-fscanf/fprintf: 0,9664s
+-<</>>: 0,2338s
+KOPIOWANIE ZNAK√ìW:
+-getc/putc: 0,0528s
+-get/put: 0,7694s
+
+KOPIOWANIE LINII:
+-fgets/fputs: 0,0408s
+-metody cin/cout: 0,035s
+
+KOPIOWANIE BLOK√ìW DANYCH: 
+-fread/fwrite: 0,0322s
+-metody read/write strumieni cin/cout: 0,0766s

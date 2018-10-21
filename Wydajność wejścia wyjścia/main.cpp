@@ -2,28 +2,23 @@
 #include <stdio.h>
 #include <fstream>
 #include <string>
+#include <ctime>
 
 using namespace std;
 
 #define SYNC_STDIO true
 
-//#define WORDS_FSCANF_FPRINTF
-//#define WORDS_IOSTREAM
+//#define WORDS
 
-//#define CHARS_GETC_PUTC
-//#define CHARS_IOSTREAM
+//#define CHARS
 
-//#define ROWS_FGETS_FPUTS
-//#define ROWS_IOSTREAM
+//#define ROWS
 
-//#define BLOCKS_FREAD_FWRITE
-//#define BLOCKS_IOSTREAM
+//#define BLOCKS
 
 // copying single words
 void copy_words_using_scanf_and_printf()
 {
-    ios::sync_with_stdio(SYNC_STDIO);
-
     FILE *input = fopen("text.txt","r");
     FILE *output = fopen("output.txt","w");
     char word[100];
@@ -39,8 +34,6 @@ void copy_words_using_scanf_and_printf()
 }
 void copy_words_using_iostream()
 {
-    ios::sync_with_stdio(SYNC_STDIO);
-
     ifstream input("text.txt");
     ofstream output("output2.txt");
     string word;
@@ -57,8 +50,6 @@ void copy_words_using_iostream()
 // copying single characters
 void copy_chars_using_getc_and_putc()
 {
-    ios::sync_with_stdio(SYNC_STDIO);
-
     FILE *input = fopen("text.txt","r");
     FILE *output = fopen("output.txt","w");
     char character;
@@ -74,8 +65,6 @@ void copy_chars_using_getc_and_putc()
 }
 void copy_chars_using_iostream()
 {
-    ios::sync_with_stdio(SYNC_STDIO);
-
     ifstream input("text.txt");
     ofstream output("output2.txt");
     char character;
@@ -92,8 +81,6 @@ void copy_chars_using_iostream()
 // copying single rows
 void copy_rows_using_fgets_fputs()
 {
-    ios::sync_with_stdio(SYNC_STDIO);
-
     FILE *input = fopen("text.txt","r");
     FILE *output = fopen("output.txt","w");
     char row[300];
@@ -109,8 +96,6 @@ void copy_rows_using_fgets_fputs()
 }
 void copy_rows_using_iostream()
 {
-    ios::sync_with_stdio(SYNC_STDIO);
-
     ifstream input("text.txt");
     ofstream output("output2.txt");
     string row;
@@ -127,8 +112,6 @@ void copy_rows_using_iostream()
 // copying data blocks
 void copy_data_blocks_using_fread_and_fwrite()
 {
-    ios::sync_with_stdio(SYNC_STDIO);
-
     FILE *input = fopen("text.txt","r");
     FILE *output = fopen("output.txt","w");
     char data_block[50];
@@ -144,8 +127,6 @@ void copy_data_blocks_using_fread_and_fwrite()
 }
 void copy_data_blocks_using_iostream()
 {
-    ios::sync_with_stdio(SYNC_STDIO);
-
     ifstream input("text.txt");
     ofstream output("output2.txt");
     char data_block[50];
@@ -163,42 +144,62 @@ void copy_data_blocks_using_iostream()
 int main()
 {
 
-    #ifdef WORDS_FSCANF_FPRINTF
-    copy_words_using_scanf_and_printf();
-    cout<<"Copying using fscanf() and fprintf() has been completed."<<endl;
-    #endif // WORDS_FSCANF_FPRINTF
+    time_t start,end;
 
-    #ifdef WORDS_IOSTREAM
-    copy_words_using_iostream();
-    cout<<"Copying using <</>> has been completed."<<endl;
-    #endif // WORDS_IOSTREAM
+    for(int i=0;i<5;i++)
+    {
+        #ifdef WORDS
+        ios::sync_with_stdio(SYNC_STDIO);
+        start = clock();
+        copy_words_using_scanf_and_printf();
+        end = clock();
+        cout<<"Copying using fscanf() and fprintf() has been completed in "<<(end-start)/(double)CLOCKS_PER_SEC<<"s"<<endl;
 
-    #ifdef CHARS_GETC_PUTC
-    copy_chars_using_getc_and_putc();
-    cout<<"Copying using getc() and putc() has been completed."<<endl;
-    #endif // CHARS_GETC_PUTC
-    #ifdef CHARS_IOSTREAM
-    copy_chars_using_iostream();
-    cout<<"Copying using cin.get() and cout.put() has been completed."<<endl;
-    #endif // CHARS_IOSTREAM
+        start = clock();
+        copy_words_using_iostream();
+        end = clock();
+        cout<<"Copying using <</>> has been completed in "<<(end-start)/(double)CLOCKS_PER_SEC<<"s"<<endl;
+        #endif // WORDS
 
-    #ifdef ROWS_FGETS_FPUTS
-    copy_rows_using_fgets_fputs();
-    cout<<"Copying using fgets() and fputs() has been completed."<<endl;
-    #endif // ROWS_FGETS_FPUTS
-    #ifdef ROWS_IOSTREAM
-    copy_rows_using_iostream();
-    cout<<"Copying using getline() and << has been completed."<<endl;
-    #endif // ROWS_IOSTREAM
+        #ifdef CHARS
+        ios::sync_with_stdio(SYNC_STDIO);
+        start = clock();
+        copy_chars_using_getc_and_putc();
+        end = clock();
+        cout<<"Copying using getc() and putc() has been completed in "<<(end-start)/(double)CLOCKS_PER_SEC<<"s"<<endl;
 
-    #ifdef BLOCKS_FREAD_FWRITE
-    copy_data_blocks_using_fread_and_fwrite();
-    cout<<"Copying using fread() and fwrite() has been completed."<<endl;
-    #endif // BLOCKS_FREAD_FWRITE
-    #ifdef BLOCKS_IOSTREAM
-    copy_data_blocks_using_iostream();
-    cout<<"Copying using getline() and << has been completed."<<endl;
-    #endif // BLOCKS_IOSTREAM
+        start = clock();
+        copy_chars_using_iostream();
+        end = clock();
+        cout<<"Copying using cin.get() and cout.put() has been completed in "<<(end-start)/(double)CLOCKS_PER_SEC<<"s"<<endl;
+        #endif // CHARS
+
+        #ifdef ROWS
+        ios::sync_with_stdio(SYNC_STDIO);
+        start = clock();
+        copy_rows_using_fgets_fputs();
+        end = clock();
+        cout<<"Copying using fgets() and fputs() has been completed in "<<(end-start)/(double)CLOCKS_PER_SEC<<"s"<<endl;
+
+        start = clock();
+        copy_rows_using_iostream();
+        end = clock();
+        cout<<"Copying using getline() and << has been completed in "<<(end-start)/(double)CLOCKS_PER_SEC<<"s"<<endl;
+        #endif // ROWS
+
+        #ifdef BLOCKS
+        ios::sync_with_stdio(SYNC_STDIO);
+        start = clock();
+        copy_data_blocks_using_fread_and_fwrite();
+        end = clock();
+        cout<<"Copying using fread() and fwrite() has been completed in "<<(end-start)/(double)CLOCKS_PER_SEC<<"s"<<endl;
+
+        start = clock();
+        copy_data_blocks_using_iostream();
+        end = clock();
+        cout<<"Copying using getline() and << has been completed in "<<(end-start)/(double)CLOCKS_PER_SEC<<"s"<<endl;
+        #endif // BLOCKS
+    }
 
     return 0;
 }
