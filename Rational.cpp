@@ -16,9 +16,9 @@ class Rational
   public:
     Rational();
     Rational(long int, long int = 1);
-    long int get_numerator(),
+    inline long int get_numerator(),
         get_denominator();
-    void set_numerator(long int),
+    inline void set_numerator(long int),
         set_denominator(long int);
     void swap_num_denom();
     vector<int> return_continued_fraction();
@@ -63,19 +63,19 @@ Rational::Rational(long int numerator, long int denominator)
     this->numerator = numerator;
     this->denominator = denominator;
 }
-long int Rational::get_numerator()
+inline long int Rational::get_numerator()
 {
     return numerator;
 }
-long int Rational::get_denominator()
+inline long int Rational::get_denominator()
 {
     return denominator;
 }
-void Rational::set_numerator(long int numerator)
+inline void Rational::set_numerator(long int numerator)
 {
     this->numerator = numerator;
 }
-void Rational::set_denominator(long int denominator)
+inline void Rational::set_denominator(long int denominator)
 {
     this->denominator = denominator;
 }
