@@ -25,10 +25,17 @@ class Z
 
     Z<p> inverse_element();
 
-    friend ostream &operator<<(ostream &output, const Z<p> &s)
+    friend ostream &operator<<(ostream &output, const Z<p> &number)
     {
-        output << s.value;
+        output << number.value;
         return output;
+    }
+    friend istream &operator>>(istream &input, Z<p> &number)
+    {
+        int value;
+        cin>>value;
+        number = Z<p>(value);
+        return input;
     }
 };
 template <int p>
@@ -62,7 +69,6 @@ Z<p> Z<p>::operator-(Z<p> other_one)
 template <int p>
 Z<p> Z<p>::operator*(Z<p> other_one)
 {
-    cout<<"mnoze "<<value <<" i "<<other_one.value<<"\twynik:"<<value * other_one.value<<endl;
     return Z<p>(value * other_one.value);
 }
 template <int p>
@@ -127,9 +133,21 @@ Z<p> Z<p>::inverse_element()
 
 int main()
 {
-    Z<23> a(6),b(3);
-    cout<<a<<endl;
-    cout << a/b;
+    Z<7> a,b;
+    cin>>a>>b;
+    cout<<a<<" "<<b<<endl;
+    cout<<"odwrotne elementy:\t"<<a.inverse_element()<<" "<<b.inverse_element()<<endl;
+    cout<<"a+b:\t"<<a+b<<endl;
+    cout<<"a-b:\t"<<a-b<<endl;
+    cout<<"a*b:\t"<<a*b<<endl;
+    cout<<"a/b:\t"<<a/b<<endl;
 
+    cout<<endl;
+    cout<<"a==b:\t"<<(a==b)<<endl;
+    cout<<"a!=b:\t"<<(a!=b)<<endl;
+    cout<<"a<b:\t"<<(a<b)<<endl;
+    cout<<"a<=b:\t"<<(a<=b)<<endl;
+    cout<<"a>b:\t"<<(a>b)<<endl;
+    cout<<"a>=b:\t"<<(a>=b)<<endl;
     return 0;
 }
