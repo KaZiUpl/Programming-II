@@ -158,7 +158,7 @@ class Square_matrix : public Matrix<T>
   public:
     Square_matrix(){};
     Square_matrix(int);
-    int determinant();
+    long int determinant();
 };
 
 template <typename T>
@@ -184,12 +184,12 @@ int Square_matrix<T>::index_of_max_in_column_starting_from_row(int col_num, int 
 }
 
 template <typename T>
-int Square_matrix<T>::determinant()
+long int Square_matrix<T>::determinant()
 {
     int scalar = 1;
-    int determinant = 1;
+    long int determinant = 1;
     int max_1, max_2;
-    // finding maximum and second maximum value of column for every column
+
     for (int col_num = 0; col_num < this->columns - 1; col_num++)
     {
         // changing row so that values in this column are >=0
@@ -199,13 +199,12 @@ int Square_matrix<T>::determinant()
             {
                 scalar *= -1;
                 this->multiply_row(i + 1, -1);
-                cout << "Nastapila zmiana znaku, obecny znak: " << scalar << endl;
             }
         }
-        max_1 = index_of_max_in_column_starting_from_row(col_num, col_num);
 
         // looking for max and second max
-        if (max_1 == this->rows - 1 && this->rows - col_num > 0)
+        max_1 = index_of_max_in_column_starting_from_row(col_num, col_num);
+        if (max_1 == this->rows - 1)
         {
             max_2 = max_1 - 1;
         }
@@ -215,7 +214,7 @@ int Square_matrix<T>::determinant()
         }
         for (int i = col_num; i < this->rows; i++)
         {
-            if (this->fields[i][col_num] > this->fields[max_2][col_num] && this->fields[i][col_num] < this->fields[max_1][col_num])
+            if (this->fields[i][col_num] > this->fields[max_2][col_num] && this->fields[i][col_num] <= this->fields[max_1][col_num] && i != max_1)
             {
                 max_2 = i;
             }
@@ -239,15 +238,17 @@ int Square_matrix<T>::determinant()
             }
             for (int i = col_num; i < this->rows; i++)
             {
-                if (this->fields[i][col_num] > this->fields[max_2][col_num] && this->fields[i][col_num] < this->fields[max_1][col_num])
+                if (this->fields[i][col_num] > this->fields[max_2][col_num] && this->fields[i][col_num] <= this->fields[max_1][col_num] && i != max_1)
                 {
                     max_2 = i;
                 }
             }
         }
-        this->interchange_rows(max_1 + 1, col_num + 1);
-        scalar *= -1;
-        cout << "Nastapila zmiana znaku, obecny znak: " << scalar << endl;
+        if(max_1 != col_num)
+        {
+            this->interchange_rows(max_1 + 1, col_num + 1);
+            scalar *= -1;
+        }
     }
 
     for (int i = 0; i < this->rows; i++)
@@ -266,11 +267,7 @@ int main()
         Square_matrix<int> matrix(size_of_matrix);
         cin >> matrix;
 
-        cout << matrix;
-
-        cout << "Wyznacznik ma wartosc: " << matrix.determinant() << endl;
-
-        cout << matrix;
+        cout <<matrix.determinant() << endl;
 
         cin >> size_of_matrix;
     }
@@ -280,3 +277,4 @@ int main()
     }
     return 0;
 }
+
