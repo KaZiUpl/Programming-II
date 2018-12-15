@@ -29,9 +29,9 @@ class Matrix
     Matrix(int, int);
     void interchange_rows(int, int);
     void interchange_cols(int, int);
-    void multiply_row(int,int);
-    void divide_row(int,int);
-    void add_row_a_to_row_b(int,int,int);
+    void multiply_row(int, int);
+    void divide_row(int, int);
+    void add_row_a_to_row_b(int, int, int);
     void transpose();
     void increment();
     void decrement();
@@ -85,31 +85,31 @@ void Matrix<T>::interchange_cols(int col_a, int col_b)
     }
 }
 template <typename T>
-void Matrix<T>::multiply_row(int row_num,int scalar)
+void Matrix<T>::multiply_row(int row_num, int scalar)
 {
     row_num--;
-    for(int i=0;i<columns;i++)
+    for (int i = 0; i < columns; i++)
     {
         fields[row_num][i] = scalar * fields[row_num][i];
     }
 }
 template <typename T>
-void Matrix<T>::divide_row(int row_num,int scalar)
+void Matrix<T>::divide_row(int row_num, int scalar)
 {
     row_num--;
-    for(int i=0;i<columns;i++)
+    for (int i = 0; i < columns; i++)
     {
-        fields[row_num][i] = fields[row_num][i]/scalar;
+        fields[row_num][i] = fields[row_num][i] / scalar;
     }
 }
 template <typename T>
-void Matrix<T>::add_row_a_to_row_b(int row_a,int row_b, int scalar)
+void Matrix<T>::add_row_a_to_row_b(int row_a, int row_b, int scalar)
 {
     row_a--;
     row_b--;
-    for(int i=0;i<columns;i++)
+    for (int i = 0; i < columns; i++)
     {
-        fields[row_b][i] += scalar*fields[row_a][i];
+        fields[row_b][i] += scalar * fields[row_a][i];
     }
 }
 
@@ -152,17 +152,13 @@ void Matrix<T>::decrement()
 template <typename T>
 class Square_matrix : public Matrix<T>
 {
-    private:
-    int gcd_of_row(int);
-    int lcm_of_column(int);
+  private:
+    int index_of_max_in_column_starting_from_row(int, int);
+
   public:
     Square_matrix(){};
     Square_matrix(int);
     int determinant();
-
-
-
-    friend int main();
 };
 
 template <typename T>
@@ -174,43 +170,91 @@ Square_matrix<T>::Square_matrix(int size_of_matrix)
 }
 
 template <typename T>
-int Square_matrix<T>::gcd_of_row(int row_num)
+int Square_matrix<T>::index_of_max_in_column_starting_from_row(int col_num, int row_num)
 {
-    row_num--;
-    if(this->rows == 1) return this->fields[row_num][0];
-
-    int result = gcd(this->fields[row_num][0],this->fields[row_num][1]);
-
-    if(this->rows == 2) return result;
-
-    for(int i=2;i<this->columns;i++)
+    int result = col_num;
+    for (int i = col_num; i < this->rows; i++)
     {
-        result = gcd(result,this->fields[row_num][i]);
+        if (this->fields[i][col_num] > this->fields[result][col_num])
+        {
+            result = i;
+        }
     }
-    return result;
-}
-template <typename T>
-int Square_matrix<T>::lcm_of_column(int col_num)
-{
-    col_num--;
-    if(this->columns == 1) return this->fields[0][0];
-
-    int result = lcm(this->fields[0][col_num],this->fields[1][col_num]);
-
-    if(this->columns == 2) return result;
-
-    for(int i=2;i<this->rows;i++)
-    {
-        result = lcm(result,this->fields[i][col_num]);
-    }
-
     return result;
 }
 
 template <typename T>
-Square_matrix<T>::determinant()
+int Square_matrix<T>::determinant()
 {
-    int scalar; // variable for storing a multiplying a determinant
+    int scalar = 1;
+    int determinant = 1;
+    int max_1, max_2;
+    // finding maximum and second maximum value of column for every column
+    for (int col_num = 0; col_num < this->columns - 1; col_num++)
+    {
+        // changing row so that values in this column are >=0
+        for (int i = col_num; i < this->rows; i++)
+        {
+            if (this->fields[i][col_num] < 0)
+            {
+                scalar *= -1;
+                this->multiply_row(i + 1, -1);
+                cout << "Nastapila zmiana znaku, obecny znak: " << scalar << endl;
+            }
+        }
+        max_1 = index_of_max_in_column_starting_from_row(col_num, col_num);
+
+        // looking for max and second max
+        if (max_1 == this->rows - 1 && this->rows - col_num > 0)
+        {
+            max_2 = max_1 - 1;
+        }
+        else
+        {
+            max_2 = this->rows - 1;
+        }
+        for (int i = col_num; i < this->rows; i++)
+        {
+            if (this->fields[i][col_num] > this->fields[max_2][col_num] && this->fields[i][col_num] < this->fields[max_1][col_num])
+            {
+                max_2 = i;
+            }
+        }
+
+        while (this->fields[max_2][col_num] != 0)
+        {
+            int how_many_times = this->fields[max_1][col_num] / this->fields[max_2][col_num];
+            this->add_row_a_to_row_b(max_2 + 1, max_1 + 1, -how_many_times);
+
+            // look for max values again
+            max_1 = index_of_max_in_column_starting_from_row(col_num, col_num);
+            // looking for max and second max
+            if (max_1 == this->rows - 1)
+            {
+                max_2 = max_1 - 1;
+            }
+            else
+            {
+                max_2 = this->rows - 1;
+            }
+            for (int i = col_num; i < this->rows; i++)
+            {
+                if (this->fields[i][col_num] > this->fields[max_2][col_num] && this->fields[i][col_num] < this->fields[max_1][col_num])
+                {
+                    max_2 = i;
+                }
+            }
+        }
+        this->interchange_rows(max_1 + 1, col_num + 1);
+        scalar *= -1;
+        cout << "Nastapila zmiana znaku, obecny znak: " << scalar << endl;
+    }
+
+    for (int i = 0; i < this->rows; i++)
+    {
+        determinant *= this->fields[i][i];
+    }
+    return scalar * determinant;
 }
 
 int main()
@@ -224,10 +268,9 @@ int main()
 
         cout << matrix;
 
-        cout << matrix.gcd_of_row(1)<<endl;
-        cout << matrix.lcm_of_column(1)<<endl;
+        cout << "Wyznacznik ma wartosc: " << matrix.determinant() << endl;
 
-
+        cout << matrix;
 
         cin >> size_of_matrix;
     }
