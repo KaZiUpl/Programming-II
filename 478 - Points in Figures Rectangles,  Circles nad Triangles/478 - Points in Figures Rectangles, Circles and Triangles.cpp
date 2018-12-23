@@ -85,13 +85,25 @@ void Trojkat::get()
 {
     cin>>this->a>>this->b>>this->c;
 }
+
+
+double sign (Punkt p1, Punkt p2, Punkt p3)
+{
+    return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
+}
 bool Trojkat::czy_jest_w_srodku(Punkt p)
 {
-    bool czy_zawiera = false;
+    double d1, d2, d3;
+    bool has_neg, has_pos;
 
+    d1 = sign(p, a, b);
+    d2 = sign(p, b, c);
+    d3 = sign(p, c, a);
 
+    has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
+    has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
 
-    return czy_zawiera;
+    return !(has_neg && has_pos);
 }
 
 int main()
@@ -119,26 +131,28 @@ int main()
             break;
         }
         figury.push_back(nowa);
-        cout<<"dodano figure"<<endl;
     }
 
     int licznik_punktow = 1;
+    bool flaga;
 
     while(cin>>punkt_do_sprawdzenia && punkt_do_sprawdzenia.x != 9999.9 && punkt_do_sprawdzenia.y != 9999.9)
     {
+        flaga = false;
         for(int i=0;i<figury.size();i++)
         {
-            bool flaga = false;
-            if(figury[i].czy_jest_w_srodku(punkt_do_sprawdzenia))
+
+            if(figury[i]->czy_jest_w_srodku(punkt_do_sprawdzenia))
             {
-                cout<<"Point "<<licznik_punktow++<<" is contained in figure "<<i+1<<endl;
+                cout<<"Point "<<licznik_punktow<<" is contained in figure "<<i+1<<endl;
                 flaga = true;
             }
         }
         if(flaga == false)
         {
-            cout<<"Point "<<licznik_punktow++<<" is not contained in any figure "<<endl;
+            cout<<"Point "<<licznik_punktow<<" is not contained in any figure "<<endl;
         }
+        licznik_punktow++;
     }
 
     return 0;
