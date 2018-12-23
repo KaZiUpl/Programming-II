@@ -1,22 +1,23 @@
 #include <iostream>
+#include <cmath>
 #include <vector>
 using namespace std;
 
 class Punkt
 {
-public:
+  public:
     double x, y;
-    Punkt() {};
-    Punkt(double,double);
+    Punkt(){};
+    Punkt(double, double);
 
-    friend istream & operator>>(istream & input, Punkt &punkt)
+    friend istream &operator>>(istream &input, Punkt &punkt)
     {
-        cin>>punkt.x>>punkt.y;
+        cin >> punkt.x >> punkt.y;
         return input;
     }
 };
 
-Punkt::Punkt(double x,double y)
+Punkt::Punkt(double x, double y)
 {
     this->x = x;
     this->y = y;
@@ -24,70 +25,86 @@ Punkt::Punkt(double x,double y)
 
 class Figura
 {
-public:
+  public:
     virtual bool czy_jest_w_srodku(Punkt) = 0;
     virtual void get() = 0;
 };
 
-class Prostokat: public Figura
+class Prostokat : public Figura
 {
-private:
+  private:
     Punkt lewy_gorny, lewy_dolny, prawy_dolny, prawy_gorny;
-public:
-    Prostokat() {};
+
+  public:
+    Prostokat(){};
     virtual bool czy_jest_w_srodku(Punkt);
     virtual void get();
 };
 
 void Prostokat::get()
 {
-    cin>>this->lewy_gorny>>this->prawy_dolny;
-    this->lewy_dolny = Punkt(this->lewy_gorny.x,this->prawy_dolny.y);
-    this->prawy_gorny = Punkt(this->prawy_dolny.x,this->lewy_gorny.y);
+    cin >> this->lewy_gorny >> this->prawy_dolny;
+    this->lewy_dolny = Punkt(this->lewy_gorny.x, this->prawy_dolny.y);
+    this->prawy_gorny = Punkt(this->prawy_dolny.x, this->lewy_gorny.y);
 }
 bool Prostokat::czy_jest_w_srodku(Punkt p)
 {
-    return (p.x <= this->prawy_gorny.x && p.x >= this->lewy_gorny.x && p.y <= prawy_gorny.y && p.y >= lewy_dolny.y);
+    if (p.x > lewy_gorny.x && p.x < prawy_dolny.x)
+    {
+        if (p.y < lewy_gorny.y && p.y > prawy_dolny.y)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
-class Okrag: public Figura
+class Okrag : public Figura
 {
-private:
+  private:
     Punkt srodek;
     double promien;
-public:
-    Okrag() {};
+
+  public:
+    Okrag(){};
     virtual bool czy_jest_w_srodku(Punkt);
     virtual void get();
 };
 
 void Okrag::get()
 {
-    cin>>this->srodek;
-    cin>>this->promien;
+    cin >> this->srodek;
+    cin >> this->promien;
 }
 bool Okrag::czy_jest_w_srodku(Punkt p)
 {
-    return ( (this->srodek.x - p.x)*(this->srodek.x - p.x) + (this->srodek.y - p.y) * (this->srodek.y - p.y) <= this->promien*this->promien );
+    if (pow((p.x - this->srodek.x), 2) + pow((p.y - this->srodek.y), 2) < pow(this->promien, 2))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
-class Trojkat: public Figura
+class Trojkat : public Figura
 {
-private:
+  private:
     Punkt a, b, c;
-public:
-    Trojkat() {};
+
+  public:
+    Trojkat(){};
     virtual bool czy_jest_w_srodku(Punkt);
     virtual void get();
 };
 
 void Trojkat::get()
 {
-    cin>>this->a>>this->b>>this->c;
+    cin >> this->a >> this->b >> this->c;
 }
 
-
-double sign (Punkt p1, Punkt p2, Punkt p3)
+double sign(Punkt p1, Punkt p2, Punkt p3)
 {
     return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
 }
@@ -110,12 +127,12 @@ int main()
 {
     char znak_figury;
     Punkt punkt_do_sprawdzenia;
-    vector <Figura *> figury;
+    vector<Figura *> figury;
 
-    while(cin>>znak_figury && znak_figury != '*')
+    while (cin >> znak_figury && znak_figury != '*')
     {
         Figura *nowa;
-        switch(znak_figury)
+        switch (znak_figury)
         {
         case 'r':
             nowa = new Prostokat();
@@ -136,21 +153,21 @@ int main()
     int licznik_punktow = 1;
     bool flaga;
 
-    while(cin>>punkt_do_sprawdzenia && punkt_do_sprawdzenia.x != 9999.9 && punkt_do_sprawdzenia.y != 9999.9)
+    while (cin >> punkt_do_sprawdzenia && punkt_do_sprawdzenia.x != 9999.9 && punkt_do_sprawdzenia.y != 9999.9)
     {
         flaga = false;
-        for(int i=0;i<figury.size();i++)
+        for (int i = 0; i < figury.size(); i++)
         {
 
-            if(figury[i]->czy_jest_w_srodku(punkt_do_sprawdzenia))
+            if (figury[i]->czy_jest_w_srodku(punkt_do_sprawdzenia))
             {
-                cout<<"Point "<<licznik_punktow<<" is contained in figure "<<i+1<<endl;
+                cout << "Point " << licznik_punktow << " is contained in figure " << i + 1 << endl;
                 flaga = true;
             }
         }
-        if(flaga == false)
+        if (flaga == false)
         {
-            cout<<"Point "<<licznik_punktow<<" is not contained in any figure "<<endl;
+            cout << "Point " << licznik_punktow << " is not contained in any figure " << endl;
         }
         licznik_punktow++;
     }
