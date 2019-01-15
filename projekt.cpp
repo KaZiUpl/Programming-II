@@ -16,7 +16,7 @@ public:
     char znak;
     void wypisz_pionek();
 };
-void Pion:wypisz_pionek()
+void Pion::wypisz_pionek()
 {
     cout.width(1);
     cout<<this->znak;
