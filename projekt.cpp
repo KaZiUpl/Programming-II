@@ -14,8 +14,13 @@ protected:
 public:
     Pion(){};
     char znak;
+    void wypisz_pionek();
 };
-
+void Pion:wypisz_pionek()
+{
+    cout.width(1);
+    cout<<this->znak;
+}
 
 class Pion_zwykly : public Pion
 {
