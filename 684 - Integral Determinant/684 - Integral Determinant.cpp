@@ -186,7 +186,6 @@ int Square_matrix<T>::index_of_max_in_column_starting_from_row(int col_num, int 
 template <typename T>
 long int Square_matrix<T>::determinant()
 {
-    int scalar = 1;
     long int determinant = 1;
     int max_1, max_2;
 
@@ -197,7 +196,7 @@ long int Square_matrix<T>::determinant()
         {
             if (this->fields[i][col_num] < 0)
             {
-                scalar *= -1;
+                determinant *= -1;
                 this->multiply_row(i + 1, -1);
             }
         }
@@ -222,8 +221,7 @@ long int Square_matrix<T>::determinant()
 
         while (this->fields[max_2][col_num] != 0)
         {
-            int how_many_times = this->fields[max_1][col_num] / this->fields[max_2][col_num];
-            this->add_row_a_to_row_b(max_2 + 1, max_1 + 1, -how_many_times);
+            this->add_row_a_to_row_b(max_2 + 1, max_1 + 1, -1);
 
             // look for max values again
             max_1 = index_of_max_in_column_starting_from_row(col_num, col_num);
@@ -247,7 +245,7 @@ long int Square_matrix<T>::determinant()
         if(max_1 != col_num)
         {
             this->interchange_rows(max_1 + 1, col_num + 1);
-            scalar *= -1;
+            determinant *= -1;
         }
     }
 
@@ -255,7 +253,7 @@ long int Square_matrix<T>::determinant()
     {
         determinant *= this->fields[i][i];
     }
-    return scalar * determinant;
+    return determinant;
 }
 
 int main()
