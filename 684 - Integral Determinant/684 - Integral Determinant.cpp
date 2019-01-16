@@ -2,6 +2,7 @@
 #include <cmath>
 #include <vector>
 #include <string>
+#include <fstream>
 using namespace std;
 
 int gcd(int a, int b)
@@ -271,7 +272,7 @@ int main()
     }
     if (size_of_matrix == 0)
     {
-        cout << "*";
+        cout << "*"<<endl;
     }
     return 0;
 }
