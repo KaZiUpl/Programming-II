@@ -155,7 +155,7 @@ Gracz::Gracz(int numer_gracza, Kolor kolor_podany)
 void Gracz::podaj_nick(int numer_gracza)
 {
     string nick_gracza;
-    cout << "Podaj nick gracza " << numer_gracza << ":" << endl;
+    cout << "Podaj nick gracza " << numer_gracza+1 << ":" << endl;
     cin >> nick_gracza;
     this->nick = nick_gracza;
 }
@@ -264,10 +264,10 @@ void Gra::rysuj_szachownice()
                     if (j == 1 && szachownica[i][h] != NULL)
                     {
                         cout.width(1);
-                        cout << (h % 2 == 0 ? bialy : i);
+                        cout << (h % 2 == 0 ? bialy : ' ');
                         szachownica[i][h]->wypisz_pionek();
                         cout.width(1);
-                        cout << (h % 2 == 0 ? bialy : h);
+                        cout << (h % 2 == 0 ? bialy : ' ');
                     }
                     else
                     {
@@ -281,10 +281,10 @@ void Gra::rysuj_szachownice()
                     if (j == 1 && szachownica[i][h] != NULL)
                     {
                         cout.width(1);
-                        cout << (h % 2 == 1 ? bialy : i);
+                        cout << (h % 2 == 1 ? bialy : ' ');
                         szachownica[i][h]->wypisz_pionek();
                         cout.width(1);
-                        cout << (h % 2 == 1 ? bialy : h);
+                        cout << (h % 2 == 1 ? bialy : ' ');
                     }
                     else
                     {
